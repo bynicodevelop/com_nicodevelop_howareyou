@@ -1,10 +1,20 @@
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
+import 'package:com_nicodevelop_howareyou/screens/select_activity_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HowAreYouScreen extends StatelessWidget {
   const HowAreYouScreen({super.key});
+
+  void _navigationToSelectActivity(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SelectActivityScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +53,7 @@ class HowAreYouScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => _navigationToSelectActivity(context),
                   child: const Text(
                     '😀',
                     style: TextStyle(
@@ -52,7 +62,7 @@ class HowAreYouScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => _navigationToSelectActivity(context),
                   child: const Text(
                     '😐',
                     style: TextStyle(
@@ -61,7 +71,7 @@ class HowAreYouScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => _navigationToSelectActivity(context),
                   child: const Text(
                     '😔',
                     style: TextStyle(
