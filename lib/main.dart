@@ -60,18 +60,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          textTheme: const TextTheme(
-            headline1: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-            headline2: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        theme: theme,
         home: const HowAreYouScreen(),
       ),
     );
