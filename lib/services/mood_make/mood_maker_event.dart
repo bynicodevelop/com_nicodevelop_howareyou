@@ -7,10 +7,10 @@ abstract class MoodMakerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnCreateMoodEvent extends MoodMakerEvent {
+class OnMakeMoodEvent extends MoodMakerEvent {
   final Map<String, dynamic> data;
 
-  const OnCreateMoodEvent({
+  const OnMakeMoodEvent({
     this.data = const {},
   });
 

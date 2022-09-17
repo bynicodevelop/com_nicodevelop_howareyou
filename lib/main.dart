@@ -1,6 +1,9 @@
 import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
-import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,12 +68,25 @@ class App extends StatelessWidget {
             userRepository: userRepository,
           ),
         ),
+        BlocProvider(
+          create: (context) => MoodListBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
+        BlocProvider<MoodMakerBloc>(
+          create: (context) => MoodMakerBloc(),
+        ),
+        BlocProvider<MoodCreateBloc>(
+          create: (context) => MoodCreateBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: theme,
-        home: const HowAreYouScreen(),
+        home: const FeedScreen(),
       ),
     );
   }

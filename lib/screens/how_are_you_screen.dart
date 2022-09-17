@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/select_activity_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
@@ -5,41 +6,21 @@ import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-final List<Map<String, dynamic>> moods = [
-  {"id": "happy", "icon": "😀"},
-  {"id": "sad", "icon": "😢"},
-  {"id": "angry", "icon": "😡"},
-  {"id": "tired", "icon": "😴"},
-  {"id": "bored", "icon": "😒"},
-  {"id": "confused", "icon": "😕"},
-  {"id": "surprised", "icon": "😮"},
-  {"id": "scared", "icon": "😱"},
-  {"id": "disgusted", "icon": "🤢"},
-  {"id": "excited", "icon": "😆"},
-  {"id": "lonely", "icon": "😞"},
-  {"id": "proud", "icon": "😎"},
-  {"id": "worried", "icon": "😟"},
-  {"id": "jealous", "icon": "😒"},
-  {"id": "hopeful", "icon": "🤞"},
-  {"id": "anxious", "icon": "😰"},
-  {"id": "frustrated", "icon": "😤"},
-  {"id": "ashamed", "icon": "😳"},
-  {"id": "guilty", "icon": "😔"},
-  {"id": "nostalgic", "icon": "😢"},
-  {"id": "sentimental", "icon": "😢"},
-  {"id": "grateful", "icon": "😊"},
-  {"id": "caring", "icon": "😊"},
-  {"id": "loving", "icon": "😍"},
-  {"id": "optimistic", "icon": "😊"},
-];
-
-class HowAreYouScreen extends StatelessWidget {
+class HowAreYouScreen extends StatefulWidget {
   const HowAreYouScreen({super.key});
 
-  void _navigationToSelectActivity(BuildContext context) {
+  @override
+  State<HowAreYouScreen> createState() => _HowAreYouScreenState();
+}
+
+class _HowAreYouScreenState extends State<HowAreYouScreen> {
+  void _navigationToSelectActivity(
+    BuildContext context,
+    Map<String, dynamic> mood,
+  ) {
     context.read<MoodMakerBloc>().add(
-          const OnCreateMoodEvent(data: {
-            "mood": "happy",
+          OnMakeMoodEvent(data: {
+            "mood": mood,
           }),
         );
 
@@ -49,6 +30,19 @@ class HowAreYouScreen extends StatelessWidget {
         builder: (context) => const SelectActivityScreen(),
       ),
     );
+  }
+
+  late Map<String, dynamic> _happyMoodStatus;
+  late Map<String, dynamic> _sosoMoodStatus;
+  late Map<String, dynamic> _sadMoodStatus;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _happyMoodStatus = (moods["happy"]..shuffle()).first;
+    _sosoMoodStatus = (moods["soso"]..shuffle()).first;
+    _sadMoodStatus = (moods["sad"]..shuffle()).first;
   }
 
   @override
@@ -87,67 +81,44 @@ class HowAreYouScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               // Create 3 mood text buttons from shuffled moods
-              children: (moods..shuffle()).sublist(0, 3).map(
-                (Map<String, dynamic> mood) {
-                  return TextButton(
-                    onPressed: () => _navigationToSelectActivity(context),
-                    child: Text(
-                      mood["icon"],
-                      style: const TextStyle(
-                        fontSize: 64,
-                      ),
+              children: [
+                TextButton(
+                  onPressed: () => _navigationToSelectActivity(
+                    context,
+                    _happyMoodStatus,
+                  ),
+                  child: Text(
+                    _happyMoodStatus["icon"],
+                    style: const TextStyle(
+                      fontSize: 64,
                     ),
-                  );
-                },
-              ).toList(),
-
-              // children: (moods..shuffle()).map((mood) {
-              //   return GestureDetector(
-              //     onTap: () => _navigationToSelectActivity(context),
-              //     child: Column(
-              //       children: [
-              //         Text(
-              //           mood["icon"],
-              //           style: Theme.of(context).textTheme.headline3,
-              //         ),
-              //         Text(
-              //           mood["id"],
-              //           style: Theme.of(context).textTheme.headline4,
-              //         ),
-              //       ],
-              //     ),
-              //   );
-              // }).toList(),
-
-              // [
-              //   TextButton(
-              //     onPressed: () => _navigationToSelectActivity(context),
-              //     child: const Text(
-              //       '😀',
-              //       style: TextStyle(
-              //         fontSize: 64,
-              //       ),
-              //     ),
-              //   ),
-              //   TextButton(
-              //     onPressed: () => _navigationToSelectActivity(context),
-              //     child: const Text(
-              //       '😐',
-              //       style: TextStyle(
-              //         fontSize: 64,
-              //       ),
-              //     ),
-              //   ),
-              //   TextButton(
-              //     onPressed: () => _navigationToSelectActivity(context),
-              //     child: const Text(
-              //       '😔',
-              //       style: TextStyle(
-              //         fontSize: 64,
-              //       ),
-              //     ),
-              //   ),
-              // ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _navigationToSelectActivity(
+                    context,
+                    _sosoMoodStatus,
+                  ),
+                  child: Text(
+                    _sosoMoodStatus["icon"],
+                    style: const TextStyle(
+                      fontSize: 64,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _navigationToSelectActivity(
+                    context,
+                    _sadMoodStatus,
+                  ),
+                  child: Text(
+                    _sadMoodStatus["icon"],
+                    style: const TextStyle(
+                      fontSize: 64,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
