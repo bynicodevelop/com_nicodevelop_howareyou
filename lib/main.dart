@@ -1,5 +1,5 @@
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
-import 'package:com_nicodevelop_howareyou/screens/start_wizard_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/select_activity_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +43,7 @@ class App extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        home: StartWizardScreen(),
+        home: SelectActivityScreen(),
       ),
     );
   }
