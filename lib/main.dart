@@ -1,5 +1,5 @@
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
-import 'package:com_nicodevelop_howareyou/screens/start_wizard_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,10 +40,23 @@ class App extends StatelessWidget {
           ),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        home: StartWizardScreen(),
+        // TODO: Externaliser dans un fichier de configuration
+        theme: ThemeData(
+          textTheme: const TextTheme(
+            headline1: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+            headline2: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        home: const HowAreYouScreen(),
       ),
     );
   }

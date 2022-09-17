@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,11 +11,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   SettingsBloc({
     required this.userRepository,
-  }) : super(SettingsInitial()) {
+  }) : super(SettingsInitialState()) {
+    on<OnGetUserSettingsEvent>((event, emit) async {
+      final UserModel userModel = await userRepository.get();
+
+      emit(SettingsLoadedState(
+        userModel: userModel,
+      ));
+    });
+
     on<OnSetUserSettingsEvent>((event, emit) async {
       await userRepository.create(event.user);
-
-      print(await userRepository.get());
     });
   }
 }
