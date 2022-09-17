@@ -1,4 +1,4 @@
-import 'package:com_nicodevelop_howareyou/services/bloc/settings_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:inputs_components/inputs_components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
