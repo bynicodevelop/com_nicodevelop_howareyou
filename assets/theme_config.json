@@ -1,4 +1,26 @@
 {
+  "appBarTheme": {
+    "titleTextStyle": {
+      "color": "#ffffffff",
+      "decoration": "none",
+      "fontFamily": "Roboto",
+      "fontWeight": "w500",
+      "fontSize": 20,
+      "inherit": true,
+      "letterSpacing": 0.15,
+      "textBaseline": "alphabetic"
+    },
+    "toolbarTextStyle": {
+      "color": "#ffffffff",
+      "decoration": "none",
+      "fontFamily": "Roboto",
+      "fontWeight": "w400",
+      "fontSize": 14,
+      "inherit": true,
+      "letterSpacing": 0.25,
+      "textBaseline": "alphabetic"
+    }
+  },
   "applyElevationOverlayColor": false,
   "backgroundColor": "#ff90caf9",
   "bottomAppBarColor": "#ffffffff",
@@ -119,6 +141,9 @@
   "highlightColor": "#66bcbcbc",
   "hintColor": "#99000000",
   "hoverColor": "#0a000000",
+  "iconTheme": {
+    "color": "#dd000000"
+  },
   "indicatorColor": "#ff2196f3",
   "inputDecorationTheme": {
     "alignLabelWithHint": false,
@@ -234,6 +259,97 @@
   "shadowColor": "#ff000000",
   "splashColor": "#66c8c8c8",
   "splashFactory": "splash",
+  "textButtonTheme": {
+    "style": {
+      "backgroundColor": {
+        "disabled": "#00000000",
+        "dragged": "#00000000",
+        "empty": "#00000000",
+        "error": "#00000000",
+        "focused": "#00000000",
+        "hovered": "#00000000",
+        "pressed": "#00000000",
+        "scrolledUnder": "#00000000",
+        "selected": "#00000000"
+      },
+      "elevation": {
+        "disabled": 0,
+        "dragged": 0,
+        "empty": 0,
+        "error": 0,
+        "focused": 0,
+        "hovered": 0,
+        "pressed": 0,
+        "scrolledUnder": 0,
+        "selected": 0
+      },
+      "foregroundColor": {
+        "disabled": "#61000000",
+        "dragged": "#ff2196f3",
+        "empty": "#ff2196f3",
+        "error": "#ff2196f3",
+        "focused": "#ff2196f3",
+        "hovered": "#ff2196f3",
+        "pressed": "#ff2196f3",
+        "scrolledUnder": "#ff2196f3",
+        "selected": "#ff2196f3"
+      },
+      "minimumSize": {
+        "disabled": {
+          "height": 36,
+          "width": 64
+        },
+        "dragged": {
+          "height": 36,
+          "width": 64
+        },
+        "empty": {
+          "height": 36,
+          "width": 64
+        },
+        "error": {
+          "height": 36,
+          "width": 64
+        },
+        "focused": {
+          "height": 36,
+          "width": 64
+        },
+        "hovered": {
+          "height": 36,
+          "width": 64
+        },
+        "pressed": {
+          "height": 36,
+          "width": 64
+        },
+        "scrolledUnder": {
+          "height": 36,
+          "width": 64
+        },
+        "selected": {
+          "height": 36,
+          "width": 64
+        }
+      },
+      "overlayColor": {
+        "focused": "#002196f3",
+        "hovered": "#002196f3",
+        "pressed": "#002196f3"
+      },
+      "shadowColor": {
+        "disabled": "#ff000000",
+        "dragged": "#ff000000",
+        "empty": "#ff000000",
+        "error": "#ff000000",
+        "focused": "#ff000000",
+        "hovered": "#ff000000",
+        "pressed": "#ff000000",
+        "scrolledUnder": "#ff000000",
+        "selected": "#ff000000"
+      }
+    }
+  },
   "textTheme": {
     "bodyLarge": {
       "color": "#dd000000",
