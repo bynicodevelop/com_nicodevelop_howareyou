@@ -9,7 +9,7 @@ class UserRepository {
   });
 
   Future<UserModel> get() async {
-    final Map<String, dynamic> user = settingsBox.get("user") ?? {};
+    final Map<String, dynamic> user = Map.from(settingsBox.get("user") ?? {});
 
     return UserModel.fromJson(user);
   }

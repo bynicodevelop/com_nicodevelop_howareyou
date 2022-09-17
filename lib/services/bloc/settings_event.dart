@@ -19,3 +19,5 @@ class OnSetUserSettingsEvent extends SettingsEvent {
         user,
       ];
 }
+
+class OnGetUserSettingsEvent extends SettingsEvent {}
