@@ -40,14 +40,14 @@ class HowAreYouScreen extends StatelessWidget {
               height: 16,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
                   onPressed: () {},
                   child: const Text(
                     '😀',
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 64,
                     ),
                   ),
                 ),
@@ -56,7 +56,7 @@ class HowAreYouScreen extends StatelessWidget {
                   child: const Text(
                     '😐',
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 64,
                     ),
                   ),
                 ),
@@ -65,7 +65,7 @@ class HowAreYouScreen extends StatelessWidget {
                   child: const Text(
                     '😔',
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 64,
                     ),
                   ),
                 ),
