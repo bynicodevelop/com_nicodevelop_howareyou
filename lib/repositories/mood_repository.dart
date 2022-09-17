@@ -23,6 +23,8 @@ class MoodRepository {
       moods.add(mood);
     }
 
+    moods.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
     return moods;
   }
 

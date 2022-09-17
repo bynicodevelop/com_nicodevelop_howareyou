@@ -1,5 +1,6 @@
 import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
 import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
+import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +57,6 @@ class FeedScreen extends StatelessWidget {
               bottom: 16.0,
             ),
             itemBuilder: (context, index) {
-              print(moods[index].toJson());
               return Stack(
                 children: [
                   Positioned(
@@ -107,6 +107,15 @@ class FeedScreen extends StatelessWidget {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HowAreYouScreen(),
+          ),
+        ),
+        child: const Icon(Icons.add),
       ),
     );
   }
