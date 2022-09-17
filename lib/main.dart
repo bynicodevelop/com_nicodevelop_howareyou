@@ -1,5 +1,7 @@
+import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/moods/moods_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,7 @@ Future<void> main() async {
 
   // Initialize the settings box
   final Box settingsBox = await Hive.openBox('user_settings_box');
+  final Box moodsBox = await Hive.openBox('moods_box');
 
   /// Récupère le fichier de configuration theme
   final themeStr = await rootBundle.loadString('assets/theme_config.json');
@@ -28,6 +31,7 @@ Future<void> main() async {
   runApp(
     App(
       settingsBox: settingsBox,
+      moodsBox: moodsBox,
       theme: theme,
     ),
   );
@@ -35,11 +39,13 @@ Future<void> main() async {
 
 class App extends StatelessWidget {
   final Box settingsBox;
+  final Box moodsBox;
   final ThemeData theme;
 
   const App({
     super.key,
     required this.settingsBox,
+    required this.moodsBox,
     required this.theme,
   });
 
@@ -49,11 +55,20 @@ class App extends StatelessWidget {
       settingsBox: settingsBox,
     );
 
+    final MoodRepository moodRepository = MoodRepository(
+      moodsBox: moodsBox,
+    );
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<SettingsBloc>(
           create: (context) => SettingsBloc(
             userRepository: userRepository,
+          ),
+        ),
+        BlocProvider<MoodsBloc>(
+          create: (context) => MoodsBloc(
+            moodRepository: moodRepository,
           ),
         ),
       ],
