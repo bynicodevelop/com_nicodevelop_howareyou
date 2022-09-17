@@ -1,4 +1,7 @@
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
+import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,12 +48,50 @@ class ThankScreen extends StatelessWidget {
                 height: 16.0,
               ),
               Text(
-                'Vous venez de poster votre première humeur.',
+                "Il ne vous reste plus qu'à valider tout ça.",
                 style: Theme.of(context).textTheme.headline2,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 16.0,
+              ),
+              BlocBuilder<MoodMakerBloc, MoodMakerState>(
+                builder: (context, stateMaker) {
+                  return BlocListener<MoodCreateBloc, MoodCreateState>(
+                    listener: (context, state) {
+                      if (state is MoodCreateSuccessState) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => const FeedScreen()),
+                          ),
+                          (route) => false,
+                        );
+                      }
+
+                      if (state is MoodCreateErrorState) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.message),
+                          ),
+                        );
+                      }
+                    },
+                    child: TextButton(
+                      onPressed: () {
+                        context.read<MoodCreateBloc>().add(
+                              OnCreateMoodEvent(
+                                data:
+                                    (stateMaker as MoodMakerInitialState).data,
+                              ),
+                            );
+                      },
+                      child: const Text(
+                        "Valider",
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -1,5 +1,9 @@
+import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
-import 'package:com_nicodevelop_howareyou/screens/mood_description_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +19,7 @@ Future<void> main() async {
 
   // Initialize the settings box
   final Box settingsBox = await Hive.openBox('user_settings_box');
+  final Box moodsBox = await Hive.openBox('moods_box');
 
   /// Récupère le fichier de configuration theme
   final themeStr = await rootBundle.loadString('assets/theme_config.json');
@@ -28,6 +33,7 @@ Future<void> main() async {
   runApp(
     App(
       settingsBox: settingsBox,
+      moodsBox: moodsBox,
       theme: theme,
     ),
   );
@@ -35,11 +41,13 @@ Future<void> main() async {
 
 class App extends StatelessWidget {
   final Box settingsBox;
+  final Box moodsBox;
   final ThemeData theme;
 
   const App({
     super.key,
     required this.settingsBox,
+    required this.moodsBox,
     required this.theme,
   });
 
@@ -49,6 +57,10 @@ class App extends StatelessWidget {
       settingsBox: settingsBox,
     );
 
+    final MoodRepository moodRepository = MoodRepository(
+      moodsBox: moodsBox,
+    );
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<SettingsBloc>(
@@ -56,12 +68,25 @@ class App extends StatelessWidget {
             userRepository: userRepository,
           ),
         ),
+        BlocProvider(
+          create: (context) => MoodListBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
+        BlocProvider<MoodMakerBloc>(
+          create: (context) => MoodMakerBloc(),
+        ),
+        BlocProvider<MoodCreateBloc>(
+          create: (context) => MoodCreateBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: theme,
-        home: const MoodDescriptionScreen(),
+        home: const FeedScreen(),
       ),
     );
   }

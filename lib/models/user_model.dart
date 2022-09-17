@@ -22,7 +22,5 @@ class UserModel {
       };
 
   @override
-  String toString() {
-    return 'UserModel(firstname: $firstname)';
-  }
+  String toString() => 'UserModel(firstname: $firstname)';
 }

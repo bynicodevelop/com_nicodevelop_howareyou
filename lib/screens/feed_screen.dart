@@ -1,4 +1,9 @@
+import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
+import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
+import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const List<Map<String, dynamic>> feedItem = [
   {
@@ -38,63 +43,79 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        padding: const EdgeInsets.only(
-          top: 100,
-          left: 32,
-          right: 32,
-          bottom: 16.0,
-        ),
-        itemCount: feedItem.length,
-        itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              Positioned(
-                left: 20.5,
-                top: 0,
-                bottom: 0,
-                child: Container(
-                  width: 6.0,
-                  color: Colors.grey[300],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 72.0,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 23.0,
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      child: Text(
-                        feedItem[index]["mood"],
-                        style: const TextStyle(
-                          fontSize: 36,
-                        ),
-                      ),
+      body: BlocBuilder<MoodListBloc, MoodListState>(
+        bloc: context.read<MoodListBloc>()..add(OnListMoodEvent()),
+        builder: (context, state) {
+          List<MoodModel> moods = (state as MoodListInitialState).moods;
+
+          return ListView.builder(
+            itemCount: moods.length,
+            padding: const EdgeInsets.only(
+              top: 100,
+              left: 32,
+              right: 32,
+              bottom: 16.0,
+            ),
+            itemBuilder: (context, index) {
+              return Stack(
+                children: [
+                  Positioned(
+                    left: 20.5,
+                    top: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: 6.0,
+                      color: Colors.grey[300],
                     ),
-                    const SizedBox(
-                      width: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 72.0,
                     ),
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 6.0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 23.0,
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          child: Text(
+                            getFlatMoodsById(moods[index].mood)["icon"],
+                            style: const TextStyle(
+                              fontSize: 36,
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          feedItem[index]["description"],
+                        const SizedBox(
+                          width: 16,
                         ),
-                      ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 6.0,
+                            ),
+                            child: Text(
+                              moods[index].description,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HowAreYouScreen(),
+          ),
+        ),
+        child: const Icon(Icons.add),
       ),
     );
   }
