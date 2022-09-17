@@ -1,7 +1,6 @@
 import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
-import 'package:com_nicodevelop_howareyou/services/moods/moods_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,11 +63,6 @@ class App extends StatelessWidget {
         BlocProvider<SettingsBloc>(
           create: (context) => SettingsBloc(
             userRepository: userRepository,
-          ),
-        ),
-        BlocProvider<MoodsBloc>(
-          create: (context) => MoodsBloc(
-            moodRepository: moodRepository,
           ),
         ),
       ],
