@@ -1,5 +1,6 @@
 import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
+import 'package:com_nicodevelop_howareyou/utils/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inputs_components/inputs_components.dart';
@@ -26,6 +27,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         bloc: context.read<SettingsBloc>()..add(OnGetUserSettingsEvent()),
         listener: (BuildContext context, SettingsState state) {
           if (state is SettingsLoadedState) {
+            if (_firstNameController.text.isNotEmpty) {
+              sendSuccessNotification(
+                context,
+                "Votre prénom a bien été enregistré",
+              );
+            }
+
             _firstNameController.text = state.userModel.firstname;
           }
         },

@@ -48,6 +48,7 @@ dependencies:
   json_theme: ^4.0.1+2
   settings_screen: ^0.0.5
   about_screen: ^0.0.2
+  another_flushbar: ^1.12.29
 
 dev_dependencies:
   flutter_test:
