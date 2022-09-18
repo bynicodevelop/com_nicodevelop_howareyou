@@ -50,7 +50,9 @@ class FeedScreen extends StatelessWidget {
               bottom: 0,
               child: Container(
                 width: 6.0,
-                color: Colors.grey[300],
+                color: Theme.of(context).primaryColor.withOpacity(
+                      0.3,
+                    ),
               ),
             ),
             Padding(
@@ -126,8 +128,6 @@ class FeedScreen extends StatelessWidget {
       body: BlocBuilder<MoodListBloc, MoodListState>(
         bloc: context.read<MoodListBloc>()..add(OnListMoodEvent()),
         builder: (context, state) {
-          // final UserModel userModel =
-          //     (settingState as SettingsLoadedState).userModel;
           List<MoodModel> moods = (state as MoodListInitialState).moods;
 
           return ListView.builder(
