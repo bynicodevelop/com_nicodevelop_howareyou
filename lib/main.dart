@@ -5,6 +5,7 @@ import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_update/mood_update_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,6 +86,11 @@ class App extends StatelessWidget {
         ),
         BlocProvider<MoodCreateBloc>(
           create: (context) => MoodCreateBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
+        BlocProvider<MoodUpdateBloc>(
+          create: (context) => MoodUpdateBloc(
             moodRepository: moodRepository,
           ),
         ),
