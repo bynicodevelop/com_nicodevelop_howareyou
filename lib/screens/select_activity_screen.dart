@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/screens/mood_description_screen.dart';
 import "package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart";
 import "package:flutter/material.dart";
@@ -23,61 +24,80 @@ class SelectActivityScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Quelle activité êtes-vous en train de faire ?",
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            GridView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(16),
-              itemCount: activities.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
+      body: Padding(
+        padding: const EdgeInsets.all(
+          kDefaultPadding,
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Quelle activité êtes-vous en train de faire ?",
+                style: Theme.of(context).textTheme.headline2,
+                textAlign: TextAlign.center,
               ),
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () {
-                      context.read<MoodMakerBloc>().add(
-                            OnMakeMoodEvent(
-                              data: {
-                                "activity": activities[index],
-                              },
-                            ),
-                          );
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: activities.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                ),
+                itemBuilder: (context, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8),
+                      onTap: () {
+                        context.read<MoodMakerBloc>().add(
+                              OnMakeMoodEvent(
+                                data: {
+                                  "activity": activities[index],
+                                },
+                              ),
+                            );
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MoodDescriptionScreen(),
-                        ),
-                      );
-                    },
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(
-                            activities[index]["icon"],
-                            size: 50,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MoodDescriptionScreen(),
                           ),
-                          Text(activities[index]["name"]),
-                        ],
+                        );
+                      },
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Icon(
+                              activities[index]["icon"],
+                              size: 50,
+                              color: Theme.of(context).primaryColor.withOpacity(
+                                    0.8,
+                                  ),
+                            ),
+                            const SizedBox(
+                              height: kDefaultPadding * .2,
+                            ),
+                            Text(
+                              activities[index]["name"],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

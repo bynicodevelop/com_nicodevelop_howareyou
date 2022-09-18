@@ -12,12 +12,74 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
 
+  Widget _buildMoodItem(
+    BuildContext context,
+    MoodModel mood,
+  ) =>
+      Stack(
+        children: [
+          Positioned(
+            left: 20.5,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 6.0,
+              color: Colors.grey[300],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 72.0,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 23.0,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  child: Text(
+                    getFlatMoodsById(mood.mood)["icon"],
+                    style: const TextStyle(
+                      fontSize: 36,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: kDefaultPadding,
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: kDefaultPadding * .5,
+                    ),
+                    child: Text(
+                      mood.description.isEmpty
+                          ? "Vous avez choisi de ne pas décrire votre humeur"
+                          : mood.description,
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            fontStyle: mood.description.isEmpty
+                                ? FontStyle.italic
+                                : FontStyle.normal,
+                            color: mood.description.isEmpty
+                                ? Colors.grey
+                                : Colors.black,
+                            height: 1.5,
+                          ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Feed',
+          'Mood Feed',
         ),
         actions: [
           IconButton(
@@ -29,6 +91,9 @@ class FeedScreen extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            width: kDefaultPadding,
+          )
         ],
       ),
       body: BlocBuilder<MoodListBloc, MoodListState>(
@@ -50,52 +115,9 @@ class FeedScreen extends StatelessWidget {
               if (index == moods.length - 1) {
                 return Column(
                   children: [
-                    Stack(
-                      children: [
-                        Positioned(
-                          left: 20.5,
-                          top: 0,
-                          bottom: 0,
-                          child: Container(
-                            width: 6.0,
-                            color: Colors.grey[300],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 72.0,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 23.0,
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                child: Text(
-                                  getFlatMoodsById(moods[index].mood)["icon"],
-                                  style: const TextStyle(
-                                    fontSize: 36,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 6.0,
-                                  ),
-                                  child: Text(
-                                    moods[index].description,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    _buildMoodItem(
+                      context,
+                      moods[index],
                     ),
                     Stack(
                       children: [
@@ -118,7 +140,7 @@ class FeedScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(
-                                width: 16,
+                                width: kDefaultPadding,
                               ),
                               BlocBuilder<SettingsBloc, SettingsState>(
                                 builder: (context, state) {
@@ -146,52 +168,9 @@ class FeedScreen extends StatelessWidget {
                 );
               }
 
-              return Stack(
-                children: [
-                  Positioned(
-                    left: 20.5,
-                    top: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: 6.0,
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 72.0,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          radius: 23.0,
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          child: Text(
-                            getFlatMoodsById(moods[index].mood)["icon"],
-                            style: const TextStyle(
-                              fontSize: 36,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 6.0,
-                            ),
-                            child: Text(
-                              moods[index].description,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              return _buildMoodItem(
+                context,
+                moods[index],
               );
             },
           );

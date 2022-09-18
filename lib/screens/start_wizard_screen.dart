@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/components/buttons/main_button_component.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,8 @@ class _StartWizardScreenState extends State<StartWizardScreen> {
                         );
                       }
                     },
-                    child: ElevatedButton(
+                    child: MainButtonComponent(
+                      text: "C'est parti !",
                       onPressed: () {
                         FocusScope.of(context).unfocus();
 
@@ -65,7 +67,6 @@ class _StartWizardScreenState extends State<StartWizardScreen> {
                               );
                         }
                       },
-                      child: const Text("C'est parti !"),
                     ),
                   ),
                 )

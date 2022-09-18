@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/components/buttons/main_button_component.dart';
 import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:com_nicodevelop_howareyou/utils/notifications.dart';
@@ -49,12 +50,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 controller: _firstNameController,
                 customValidator: (value) => value.isNotEmpty,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
+              const SizedBox(
+                height: kDefaultPadding,
+              ),
+              MainButtonComponent(
+                  text: "Enregister",
                   onPressed: () {
-                    FocusScope.of(context).unfocus();
-
                     if (_firstNameController.text.isNotEmpty) {
                       context.read<SettingsBloc>().add(
                             OnUpdateUserSettingsEvent(user: {
@@ -62,10 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }),
                           );
                     }
-                  },
-                  child: const Text("C'est parti !"),
-                ),
-              ),
+                  }),
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/components/buttons/main_button_component.dart';
 import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/screens/thank_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
@@ -27,22 +28,19 @@ class _MoodDescriptionScreenState extends State<MoodDescriptionScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(
-          32.0,
+          kDefaultPadding * 2,
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _moodDescriptionController,
-                  maxLines: null,
-                  minLines: 4,
-                  decoration: const InputDecoration(
-                    hintText: "Voulez-vous ajouter une quelque chose d'autre ?",
-                    hintMaxLines: 2,
-                  ),
+              TextField(
+                controller: _moodDescriptionController,
+                maxLines: null,
+                minLines: 4,
+                decoration: const InputDecoration(
+                  hintText: "Voulez-vous ajouter une quelque chose d'autre ?",
+                  hintMaxLines: 2,
                 ),
               ),
               const SizedBox(
@@ -50,7 +48,8 @@ class _MoodDescriptionScreenState extends State<MoodDescriptionScreen> {
               ),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: MainButtonComponent(
+                  text: "Continuer",
                   onPressed: () {
                     context.read<MoodMakerBloc>().add(
                           OnMakeMoodEvent(data: {
@@ -60,15 +59,7 @@ class _MoodDescriptionScreenState extends State<MoodDescriptionScreen> {
 
                     _goToThankScreen(context);
                   },
-                  child: const Text("Button"),
                 ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              TextButton(
-                onPressed: () => _goToThankScreen(context),
-                child: const Text("Skip"),
               ),
             ],
           ),
