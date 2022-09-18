@@ -13,10 +13,16 @@ class MoodListBloc extends Bloc<MoodListEvent, MoodListState> {
     required this.moodRepository,
   }) : super(const MoodListInitialState()) {
     on<OnListMoodEvent>((event, emit) async {
+      emit(MoodListInitialState(
+        isLoading: true,
+        moods: (state as MoodListInitialState).moods,
+      ));
+
       try {
         final List<MoodModel> moodModels = await moodRepository.list();
 
         emit(MoodListInitialState(
+          isLoading: false,
           moods: moodModels,
         ));
       } catch (e) {

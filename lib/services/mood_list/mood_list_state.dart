@@ -8,14 +8,17 @@ abstract class MoodListState extends Equatable {
 }
 
 class MoodListInitialState extends MoodListState {
+  final bool isLoading;
   final List<MoodModel> moods;
 
   const MoodListInitialState({
+    this.isLoading = true,
     this.moods = const [],
   });
 
   @override
   List<Object> get props => [
+        isLoading,
         moods,
       ];
 }

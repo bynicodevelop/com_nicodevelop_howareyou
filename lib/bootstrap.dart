@@ -38,6 +38,16 @@ class Bootstrap extends StatelessWidget {
               final List<MoodModel> moods = state is MoodListInitialState
                   ? state.moods
                   : const <MoodModel>[];
+              final bool isLoading =
+                  state is MoodListInitialState ? state.isLoading : false;
+
+              if (isLoading) {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
 
               if (moods.isEmpty) {
                 return const HowAreYouScreen();
