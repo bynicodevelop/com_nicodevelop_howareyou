@@ -46,6 +46,8 @@ dependencies:
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   json_theme: ^4.0.1+2
+  settings_screen: ^0.0.5
+  about_screen: ^0.0.2
 
 dev_dependencies:
   flutter_test:

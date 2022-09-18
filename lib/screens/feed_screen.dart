@@ -2,42 +2,11 @@ import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
 import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/settings_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-const List<Map<String, dynamic>> feedItem = [
-  {
-    "mood": "😀",
-    "description": "I am feeling great today! lorem ipsum dolor sit amet",
-  },
-  {
-    "mood": "😀",
-    "description":
-        "I am feeling great today! lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-  },
-  {
-    "mood": "😀",
-    "description":
-        '''lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-
-I am feeling great today!     
-''',
-  },
-  {
-    "mood": "😀",
-    "description": "I am feeling great today!",
-  },
-  {
-    "mood": "😀",
-    "description": "I am feeling great today!",
-  },
-  {
-    "mood": "⚫️",
-    "description": "Bienvenue",
-  }
-];
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -45,6 +14,22 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Feed',
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SettingsScreen(),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: BlocBuilder<SettingsBloc, SettingsState>(
         bloc: context.read<SettingsBloc>()..add(OnGetUserSettingsEvent()),
         builder: (context, settingState) {
@@ -58,7 +43,7 @@ class FeedScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: moods.length,
                 padding: const EdgeInsets.only(
-                  top: 100,
+                  top: 50,
                   left: 32,
                   right: 32,
                   bottom: 16.0,
