@@ -20,7 +20,6 @@ class MoodListBloc extends Bloc<MoodListEvent, MoodListState> {
           moods: moodModels,
         ));
       } catch (e) {
-        print(e);
         emit(MoodListErrorState(
           message: e.toString(),
         ));

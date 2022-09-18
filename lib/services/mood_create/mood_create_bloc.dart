@@ -19,7 +19,6 @@ class MoodCreateBloc extends Bloc<MoodCreateEvent, MoodCreateState> {
 
         emit(MoodCreateSuccessState());
       } catch (e) {
-        print(e);
         emit(MoodCreateErrorState(
           message: e.toString(),
         ));
