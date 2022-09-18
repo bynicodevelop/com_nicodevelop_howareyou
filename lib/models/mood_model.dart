@@ -46,6 +46,21 @@ class MoodModel {
         'updatedAt': updatedAt.toIso8601String(),
       };
 
+  MoodModel copyWith({
+    String? mood,
+    String? activity,
+    String? description,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      MoodModel(
+        mood: mood ?? this.mood,
+        activity: activity ?? this.activity,
+        description: description ?? this.description,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
   @override
   String toString() =>
       'MoodModel(mood: $mood, activity: $activity, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';

@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/components/update_mood/update_mood_component.dart';
 import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
 import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
@@ -12,66 +13,92 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
 
+  // Create modal bottom sheet
+  void _updateMood(
+    BuildContext context,
+    MoodModel mood,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            kDefaultPadding,
+          ),
+        ),
+      ),
+      builder: (context) => UpdateMoodComponent(
+        mood: mood,
+      ),
+    );
+  }
+
   Widget _buildMoodItem(
     BuildContext context,
     MoodModel mood,
   ) =>
-      Stack(
-        children: [
-          Positioned(
-            left: 20.5,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 6.0,
-              color: Colors.grey[300],
+      GestureDetector(
+        onLongPress: () => _updateMood(
+          context,
+          mood,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 20.5,
+              top: 0,
+              bottom: 0,
+              child: Container(
+                width: 6.0,
+                color: Colors.grey[300],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 72.0,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 23.0,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  child: Text(
-                    getFlatMoodsById(mood.mood)["icon"],
-                    style: const TextStyle(
-                      fontSize: 36,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: kDefaultPadding,
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: kDefaultPadding * .5,
-                    ),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 72.0,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 23.0,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     child: Text(
-                      mood.description.isEmpty
-                          ? "Vous avez choisi de ne pas décrire votre humeur"
-                          : mood.description,
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            fontStyle: mood.description.isEmpty
-                                ? FontStyle.italic
-                                : FontStyle.normal,
-                            color: mood.description.isEmpty
-                                ? Colors.grey
-                                : Colors.black,
-                            height: 1.5,
-                          ),
+                      getFlatMoodsById(mood.mood)["icon"],
+                      style: const TextStyle(
+                        fontSize: 36,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    width: kDefaultPadding,
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: kDefaultPadding * .5,
+                      ),
+                      child: Text(
+                        mood.description.isEmpty
+                            ? "Vous avez choisi de ne pas décrire votre humeur"
+                            : mood.description,
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              fontStyle: mood.description.isEmpty
+                                  ? FontStyle.italic
+                                  : FontStyle.normal,
+                              color: mood.description.isEmpty
+                                  ? Colors.grey
+                                  : Colors.black,
+                              height: 1.5,
+                            ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
 
   @override

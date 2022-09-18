@@ -40,7 +40,9 @@ class MoodRepository {
     await moodsBox.put(mood.key, mood.toJson());
   }
 
-  Future<void> update(Map<String, dynamic> data) async {}
+  Future<void> update(MoodModel mood) async {
+    await moodsBox.put(mood.key, mood.toJson());
+  }
 
   Future<void> createOrUpdate(Map<String, dynamic> data) async {}
 
