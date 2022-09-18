@@ -1,8 +1,8 @@
-import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
-import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/splash_screen.dart';
 import 'package:com_nicodevelop_howareyou/screens/start_wizard_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -15,46 +15,42 @@ class Bootstrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: context.read<SettingsBloc>()..add(OnGetUserSettingsEvent()),
+    return BlocConsumer<SettingsBloc, SettingsState>(
+      listener: (context, state) {
+        if (state is SettingsLoadedState) {
+          context.read<BootstrapBloc>().add(OnSettingsLoadedEvent());
+        }
+      },
       builder: (context, settingsState) {
-        if (settingsState is! SettingsLoadedState) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+        return BlocConsumer<MoodListBloc, MoodListState>(
+          listener: (context, state) {
+            final bool isLoading = (state as MoodListInitialState).isLoading;
 
-        final UserModel userModel = settingsState.userModel;
+            if (!isLoading) {
+              context.read<BootstrapBloc>().add(OnMoodsLoadedEvent());
+            }
+          },
+          builder: (context, moodState) {
+            return BlocBuilder<BootstrapBloc, BootstrapState>(
+                builder: (context, state) {
+              final BootstrapInitialState bootstrapState =
+                  state as BootstrapInitialState;
 
-        if (userModel.isEmpty) {
-          return const StartWizardScreen();
-        }
-
-        return BlocBuilder<MoodListBloc, MoodListState>(
-            bloc: context.read<MoodListBloc>()..add(OnListMoodEvent()),
-            builder: (context, state) {
-              final List<MoodModel> moods = state is MoodListInitialState
-                  ? state.moods
-                  : const <MoodModel>[];
-              final bool isLoading =
-                  state is MoodListInitialState ? state.isLoading : false;
-
-              if (isLoading) {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+              if (bootstrapState.isLoading) {
+                return const SplashScreen();
               }
 
-              if (moods.isEmpty) {
-                return const HowAreYouScreen();
-              } else {
-                return const FeedScreen();
+              final UserModel userModel =
+                  (settingsState as SettingsLoadedState).userModel;
+
+              if (userModel.isEmpty) {
+                return const StartWizardScreen();
               }
+
+              return const FeedScreen();
             });
+          },
+        );
       },
     );
   }
