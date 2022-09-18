@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/components/welcome_messages/welcome_messages_component.dart';
 import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/select_activity_screen.dart';
@@ -61,9 +62,8 @@ class _HowAreYouScreenState extends State<HowAreYouScreen> {
 
                 final UserModel userModel = state.userModel;
 
-                return Text(
-                  'Bonjour ${userModel.firstname} !',
-                  style: Theme.of(context).textTheme.headline1,
+                return WelcomeMessagesComponent(
+                  name: userModel.firstname,
                 );
               },
             ),
