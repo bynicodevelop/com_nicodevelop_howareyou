@@ -21,8 +21,8 @@ Future<void> main() async {
   final Box settingsBox = await Hive.openBox('user_settings_box');
   final Box moodsBox = await Hive.openBox('moods_box');
 
-  await settingsBox.clear();
-  await moodsBox.clear();
+  // await settingsBox.clear();
+  // await moodsBox.clear();
 
   /// Récupère le fichier de configuration theme
   final themeStr = await rootBundle.loadString('assets/theme_config.json');
