@@ -62,12 +62,12 @@ class _BootstrapState extends State<Bootstrap> {
               return const SplashScreen();
             }
 
-            if (_moods.value.isEmpty) {
-              return const HowAreYouScreen();
-            }
-
             if (_user.value.isEmpty) {
               return const StartWizardScreen();
+            }
+
+            if (_moods.value.isEmpty) {
+              return const HowAreYouScreen();
             }
 
             return const FeedScreen();
