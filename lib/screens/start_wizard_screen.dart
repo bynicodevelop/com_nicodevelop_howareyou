@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:inputs_components/inputs_components.dart';
@@ -16,35 +17,60 @@ class _StartWizardScreenState extends State<StartWizardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 20.0,
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Un prénom et c'est parti !"),
-              standardInput(
-                label: "Quel est votre prénom ?",
-                controller: _firstNameController,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<SettingsBloc>().add(
-                          OnSetUserSettingsEvent(user: {
-                            "firstname": _firstNameController.text,
-                          }),
-                        );
-                  },
-                  child: const Text("C'est parti !"),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 20.0,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Un prénom et c'est parti !",
+                  style: Theme.of(context).textTheme.headline1,
                 ),
-              )
-            ],
+                standardInput(
+                  label: "Quel est votre prénom ?",
+                  errorText: "Avec un prénom, ça serait mieux 😀",
+                  controller: _firstNameController,
+                  customValidator: (value) => value.isNotEmpty,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: BlocListener<SettingsBloc, SettingsState>(
+                    listener: (context, state) {
+                      if (state is SettingsUpdatedState) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HowAreYouScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      }
+                    },
+                    child: ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+
+                        if (_firstNameController.text.isNotEmpty) {
+                          context.read<SettingsBloc>().add(
+                                OnSetUserSettingsEvent(user: {
+                                  "firstname": _firstNameController.text,
+                                }),
+                              );
+                        }
+                      },
+                      child: const Text("C'est parti !"),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
