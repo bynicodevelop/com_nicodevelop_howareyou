@@ -1,6 +1,7 @@
 import 'package:com_nicodevelop_howareyou/bootstrap.dart';
 import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
+import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
@@ -66,15 +67,18 @@ class App extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => BootstrapBloc(),
+        ),
         BlocProvider<SettingsBloc>(
           create: (context) => SettingsBloc(
             userRepository: userRepository,
-          ),
+          )..add(OnGetUserSettingsEvent()),
         ),
         BlocProvider(
           create: (context) => MoodListBloc(
             moodRepository: moodRepository,
-          ),
+          )..add(OnListMoodEvent()),
         ),
         BlocProvider<MoodMakerBloc>(
           create: (context) => MoodMakerBloc(),
