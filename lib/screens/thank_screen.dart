@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
@@ -25,7 +26,7 @@ class ThankScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 16.0,
+                height: kDefaultPadding,
               ),
               BlocBuilder<SettingsBloc, SettingsState>(
                 bloc: context.read<SettingsBloc>()
@@ -45,7 +46,7 @@ class ThankScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(
-                height: 16.0,
+                height: kDefaultPadding,
               ),
               Text(
                 "Il ne vous reste plus qu'à valider tout ça.",
@@ -53,7 +54,7 @@ class ThankScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
-                height: 16.0,
+                height: kDefaultPadding,
               ),
               BlocBuilder<MoodMakerBloc, MoodMakerState>(
                 builder: (context, stateMaker) {

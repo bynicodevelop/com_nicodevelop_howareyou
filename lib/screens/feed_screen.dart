@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/config/moods_contants.dart';
 import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
@@ -44,9 +45,9 @@ class FeedScreen extends StatelessWidget {
                 itemCount: moods.length,
                 padding: const EdgeInsets.only(
                   top: 50,
-                  left: 32,
-                  right: 32,
-                  bottom: 16.0,
+                  left: kDefaultPadding * 2,
+                  right: kDefaultPadding * 2,
+                  bottom: kDefaultPadding,
                 ),
                 itemBuilder: (context, index) {
                   if (index == moods.length - 1) {

@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/screens/thank_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _MoodDescriptionScreenState extends State<MoodDescriptionScreen> {
                 ),
               ),
               const SizedBox(
-                height: 16.0,
+                height: kDefaultPadding,
               ),
               SizedBox(
                 width: double.infinity,

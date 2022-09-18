@@ -1,6 +1,7 @@
 import 'package:com_nicodevelop_howareyou/bootstrap.dart';
 import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
+import 'package:com_nicodevelop_howareyou/screens/profile_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
@@ -93,7 +94,8 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: theme,
-        home: const Bootstrap(),
+        home: const ProfileScreen(),
+        // home: const Bootstrap(),
       ),
     );
   }

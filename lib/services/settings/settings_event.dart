@@ -20,4 +20,17 @@ class OnSetUserSettingsEvent extends SettingsEvent {
       ];
 }
 
+class OnUpdateUserSettingsEvent extends SettingsEvent {
+  final Map<String, dynamic> user;
+
+  const OnUpdateUserSettingsEvent({
+    required this.user,
+  });
+
+  @override
+  List<Object> get props => [
+        user,
+      ];
+}
+
 class OnGetUserSettingsEvent extends SettingsEvent {}
