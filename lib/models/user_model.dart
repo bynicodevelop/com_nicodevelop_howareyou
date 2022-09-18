@@ -14,8 +14,10 @@ class UserModel {
   String get key => firstname.hashCode.toString();
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        firstname: json['firstname'],
+        firstname: json['firstname'] ?? '',
       );
+
+  get isEmpty => firstname.isEmpty;
 
   Map<String, dynamic> toJson() => {
         'firstname': firstname,

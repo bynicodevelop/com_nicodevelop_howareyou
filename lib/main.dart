@@ -1,6 +1,6 @@
+import 'package:com_nicodevelop_howareyou/bootstrap.dart';
 import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
-import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
@@ -20,6 +20,9 @@ Future<void> main() async {
   // Initialize the settings box
   final Box settingsBox = await Hive.openBox('user_settings_box');
   final Box moodsBox = await Hive.openBox('moods_box');
+
+  await settingsBox.clear();
+  await moodsBox.clear();
 
   /// Récupère le fichier de configuration theme
   final themeStr = await rootBundle.loadString('assets/theme_config.json');
@@ -86,7 +89,7 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: theme,
-        home: const FeedScreen(),
+        home: const Bootstrap(),
       ),
     );
   }

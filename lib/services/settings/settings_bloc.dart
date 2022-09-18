@@ -22,6 +22,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     on<OnSetUserSettingsEvent>((event, emit) async {
       await userRepository.create(event.user);
+
+      emit(SettingsUpdatedState());
     });
   }
 }

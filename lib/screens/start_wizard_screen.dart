@@ -1,3 +1,4 @@
+import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:inputs_components/inputs_components.dart';
@@ -26,22 +27,38 @@ class _StartWizardScreenState extends State<StartWizardScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Un prénom et c'est parti !"),
+              Text(
+                "Un prénom et c'est parti !",
+                style: Theme.of(context).textTheme.headline1,
+              ),
               standardInput(
                 label: "Quel est votre prénom ?",
                 controller: _firstNameController,
               ),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<SettingsBloc>().add(
-                          OnSetUserSettingsEvent(user: {
-                            "firstname": _firstNameController.text,
-                          }),
-                        );
+                child: BlocListener<SettingsBloc, SettingsState>(
+                  listener: (context, state) {
+                    if (state is SettingsUpdatedState) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HowAreYouScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    }
                   },
-                  child: const Text("C'est parti !"),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.read<SettingsBloc>().add(
+                            OnSetUserSettingsEvent(user: {
+                              "firstname": _firstNameController.text,
+                            }),
+                          );
+                    },
+                    child: const Text("C'est parti !"),
+                  ),
                 ),
               )
             ],

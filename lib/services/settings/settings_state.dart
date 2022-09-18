@@ -21,3 +21,18 @@ class SettingsLoadedState extends SettingsState {
         userModel,
       ];
 }
+
+class SettingsUpdatedState extends SettingsState {}
+
+class SettingsErrorState extends SettingsState {
+  final String message;
+
+  const SettingsErrorState({
+    required this.message,
+  });
+
+  @override
+  List<Object> get props => [
+        message,
+      ];
+}
