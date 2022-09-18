@@ -55,7 +55,6 @@ class _HowAreYouScreenState extends State<HowAreYouScreen> {
             BlocBuilder<SettingsBloc, SettingsState>(
               bloc: context.read<SettingsBloc>()..add(OnGetUserSettingsEvent()),
               builder: (context, state) {
-                print(state);
                 if (state is! SettingsLoadedState) {
                   return const Text('Initial state');
                 }
