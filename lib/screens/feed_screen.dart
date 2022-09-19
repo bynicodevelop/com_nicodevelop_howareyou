@@ -38,7 +38,7 @@ class FeedScreen extends StatelessWidget {
     MoodModel mood,
   ) =>
       GestureDetector(
-        onLongPress: () => _updateMood(
+        onTap: () => _updateMood(
           context,
           mood,
         ),
