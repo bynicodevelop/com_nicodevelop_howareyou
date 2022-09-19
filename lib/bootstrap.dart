@@ -2,6 +2,7 @@ import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
+import 'package:com_nicodevelop_howareyou/screens/mood_description_screen.dart';
 import 'package:com_nicodevelop_howareyou/screens/start_wizard_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';

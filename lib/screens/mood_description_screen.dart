@@ -36,6 +36,8 @@ class _MoodDescriptionScreenState extends State<MoodDescriptionScreen> {
             children: [
               TextField(
                 controller: _moodDescriptionController,
+                keyboardType: TextInputType.multiline,
+                textCapitalization: TextCapitalization.sentences,
                 maxLines: null,
                 minLines: 4,
                 decoration: const InputDecoration(
