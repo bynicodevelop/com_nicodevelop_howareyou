@@ -9,6 +9,17 @@ abstract class AdmobsState extends Equatable {
 
 class AdmobsInitialState extends AdmobsState {}
 
-class ShowAdmobsInitialState extends AdmobsState {}
+class ShowAdmobsInitialState extends AdmobsState {
+  final String adUnitId;
+
+  const ShowAdmobsInitialState({
+    required this.adUnitId,
+  });
+
+  @override
+  List<Object> get props => [
+        adUnitId,
+      ];
+}
 
 class UnShowAdmobsInitialState extends AdmobsState {}

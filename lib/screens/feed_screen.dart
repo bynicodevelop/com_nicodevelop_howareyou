@@ -105,9 +105,9 @@ class FeedScreen extends StatelessWidget {
         ),
       );
 
-  Future<void> _showAdd() async {
+  Future<void> _showAdd(String adUnitId) async {
     return InterstitialAd.load(
-      adUnitId: "ca-app-pub-3940256099942544/1033173712",
+      adUnitId: adUnitId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -144,7 +144,9 @@ class FeedScreen extends StatelessWidget {
       ),
       body: BlocListener<AdmobsBloc, AdmobsState>(
         listener: (context, state) {
-          if (state is ShowAdmobsInitialState) _showAdd();
+          if (state is ShowAdmobsInitialState) {
+            _showAdd(state.adUnitId);
+          }
         },
         child: BlocBuilder<MoodListBloc, MoodListState>(
           bloc: context.read<MoodListBloc>()..add(OnListMoodEvent()),

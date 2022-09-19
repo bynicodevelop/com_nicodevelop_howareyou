@@ -42,6 +42,10 @@ Future<void> main() async {
   /// Conversion en theme Flutter
   final theme = ThemeDecoder.decodeThemeData(themeJson)!;
 
+  final admobStr = await rootBundle.loadString('assets/ad_mob.json');
+
+  final admobJson = jsonDecode(admobStr);
+
   MobileAds.instance.initialize();
 
   runApp(
@@ -49,6 +53,7 @@ Future<void> main() async {
       settingsBox: settingsBox,
       moodsBox: moodsBox,
       theme: theme,
+      admobJson: admobJson,
     ),
   );
 }
@@ -57,12 +62,14 @@ class App extends StatelessWidget {
   final Box settingsBox;
   final Box moodsBox;
   final ThemeData theme;
+  final Map<String, dynamic> admobJson;
 
   const App({
     super.key,
     required this.settingsBox,
     required this.moodsBox,
     required this.theme,
+    required this.admobJson,
   });
 
   @override
@@ -106,6 +113,7 @@ class App extends StatelessWidget {
         BlocProvider<AdmobsBloc>(
           create: (context) => AdmobsBloc(
             moodRepository: moodRepository,
+            admobJson: admobJson,
           ),
         ),
       ],
