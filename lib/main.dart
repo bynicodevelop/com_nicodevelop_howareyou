@@ -1,66 +1,110 @@
+import 'package:com_nicodevelop_howareyou/bootstrap.dart';
+import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
+import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
+import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/mood_update/mood_update_bloc.dart';
+import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:json_theme/json_theme.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterNativeSplash.preserve(
+    widgetsBinding: widgetsBinding,
+  );
+
+  await Hive.initFlutter();
+
+  // Initialize the settings box
+  final Box settingsBox = await Hive.openBox('user_settings_box');
+  final Box moodsBox = await Hive.openBox('moods_box');
+
+  // await settingsBox.clear();
+  // await moodsBox.clear();
+
+  /// Récupère le fichier de configuration theme
+  final themeStr = await rootBundle.loadString('assets/theme_config.json');
+
+  /// Conversion du fichier en objet
+  final themeJson = jsonDecode(themeStr);
+
+  /// Conversion en theme Flutter
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
+
+  runApp(
+    App(
+      settingsBox: settingsBox,
+      moodsBox: moodsBox,
+      theme: theme,
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  final Box settingsBox;
+  final Box moodsBox;
+  final ThemeData theme;
+
+  const App({
+    super.key,
+    required this.settingsBox,
+    required this.moodsBox,
+    required this.theme,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    final UserRepository userRepository = UserRepository(
+      settingsBox: settingsBox,
     );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+    final MoodRepository moodRepository = MoodRepository(
+      moodsBox: moodsBox,
+    );
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => BootstrapBloc(),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        BlocProvider<SettingsBloc>(
+          create: (context) => SettingsBloc(
+            userRepository: userRepository,
+          )..add(OnGetUserSettingsEvent()),
+        ),
+        BlocProvider(
+          create: (context) => MoodListBloc(
+            moodRepository: moodRepository,
+          )..add(OnListMoodEvent()),
+        ),
+        BlocProvider<MoodMakerBloc>(
+          create: (context) => MoodMakerBloc(),
+        ),
+        BlocProvider<MoodCreateBloc>(
+          create: (context) => MoodCreateBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
+        BlocProvider<MoodUpdateBloc>(
+          create: (context) => MoodUpdateBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: theme,
+        home: const Bootstrap(),
       ),
     );
   }
