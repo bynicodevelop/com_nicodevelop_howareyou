@@ -5,10 +5,12 @@ import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
 import 'package:com_nicodevelop_howareyou/screens/settings_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/admobs/admobs_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -103,6 +105,21 @@ class FeedScreen extends StatelessWidget {
         ),
       );
 
+  Future<void> _showAdd(String adUnitId) async {
+    return InterstitialAd.load(
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          ad.show();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,83 +142,91 @@ class FeedScreen extends StatelessWidget {
           )
         ],
       ),
-      body: BlocBuilder<MoodListBloc, MoodListState>(
-        bloc: context.read<MoodListBloc>()..add(OnListMoodEvent()),
-        builder: (context, state) {
-          List<MoodModel> moods = (state as MoodListInitialState).moods;
+      body: BlocListener<AdmobsBloc, AdmobsState>(
+        listener: (context, state) {
+          if (state is ShowAdmobsInitialState) {
+            _showAdd(state.adUnitId);
+          }
+        },
+        child: BlocBuilder<MoodListBloc, MoodListState>(
+          bloc: context.read<MoodListBloc>()..add(OnListMoodEvent()),
+          builder: (context, state) {
+            List<MoodModel> moods = (state as MoodListInitialState).moods;
 
-          return ListView.builder(
-            itemCount: moods.length,
-            padding: const EdgeInsets.only(
-              top: 50,
-              left: kDefaultPadding * 2,
-              right: kDefaultPadding * 2,
-              bottom: kDefaultPadding,
-            ),
-            itemBuilder: (context, index) {
-              if (index == moods.length - 1) {
-                return Column(
-                  children: [
-                    _buildMoodItem(
-                      context,
-                      moods[index],
-                    ),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 72.0,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 23.0,
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                child: const Text(
-                                  "👋",
-                                  style: TextStyle(
-                                    fontSize: 36,
+            return ListView.builder(
+              itemCount: moods.length,
+              padding: const EdgeInsets.only(
+                top: 50,
+                left: kDefaultPadding * 2,
+                right: kDefaultPadding * 2,
+                bottom: kDefaultPadding,
+              ),
+              itemBuilder: (context, index) {
+                if (index == moods.length - 1) {
+                  return Column(
+                    children: [
+                      _buildMoodItem(
+                        context,
+                        moods[index],
+                      ),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 72.0,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 23.0,
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  child: const Text(
+                                    "👋",
+                                    style: TextStyle(
+                                      fontSize: 36,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: kDefaultPadding,
-                              ),
-                              BlocBuilder<SettingsBloc, SettingsState>(
-                                builder: (context, state) {
-                                  final UserModel userModel =
-                                      (state as SettingsLoadedState).userModel;
+                                const SizedBox(
+                                  width: kDefaultPadding,
+                                ),
+                                BlocBuilder<SettingsBloc, SettingsState>(
+                                  builder: (context, state) {
+                                    final UserModel userModel =
+                                        (state as SettingsLoadedState)
+                                            .userModel;
 
-                                  return Flexible(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 6.0,
+                                    return Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 6.0,
+                                        ),
+                                        child: Text(
+                                          "Bienvenue ${userModel.firstname}",
+                                        ),
                                       ),
-                                      child: Text(
-                                        "Bienvenue ${userModel.firstname}",
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  );
+                }
+
+                return _buildMoodItem(
+                  context,
+                  moods[index],
                 );
-              }
-
-              return _buildMoodItem(
-                context,
-                moods[index],
-              );
-            },
-          );
-        },
+              },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
