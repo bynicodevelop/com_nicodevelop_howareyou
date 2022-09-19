@@ -2,13 +2,13 @@ import 'package:com_nicodevelop_howareyou/models/mood_model.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
 import 'package:com_nicodevelop_howareyou/screens/how_are_you_screen.dart';
-import 'package:com_nicodevelop_howareyou/screens/splash_screen.dart';
 import 'package:com_nicodevelop_howareyou/screens/start_wizard_screen.dart';
 import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class Bootstrap extends StatefulWidget {
   const Bootstrap({
@@ -54,14 +54,11 @@ class _BootstrapState extends State<Bootstrap> {
                 state as BootstrapInitialState;
 
             if (!bootstrapState.isLoading) {
+              FlutterNativeSplash.remove();
               _isInitialized.value = true;
             }
           },
           builder: (context, state) {
-            if (!_isInitialized.value) {
-              return const SplashScreen();
-            }
-
             if (_user.value.isEmpty) {
               return const StartWizardScreen();
             }
