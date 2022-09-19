@@ -42,6 +42,7 @@ class ThankScreen extends StatelessWidget {
                   return Text(
                     'Félicications ${userModel.firstname} !',
                     style: Theme.of(context).textTheme.headline1,
+                    textAlign: TextAlign.center,
                   );
                 },
               ),
