@@ -1,6 +1,7 @@
 import 'package:com_nicodevelop_howareyou/config/contants.dart';
 import 'package:com_nicodevelop_howareyou/models/user_model.dart';
 import 'package:com_nicodevelop_howareyou/screens/feed_screen.dart';
+import 'package:com_nicodevelop_howareyou/services/admobs/admobs_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_make/mood_maker_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
@@ -59,9 +60,11 @@ class ThankScreen extends StatelessWidget {
               ),
               BlocBuilder<MoodMakerBloc, MoodMakerState>(
                 builder: (context, stateMaker) {
-                  return BlocListener<MoodCreateBloc, MoodCreateState>(
+                  return BlocConsumer<MoodCreateBloc, MoodCreateState>(
                     listener: (context, state) {
                       if (state is MoodCreateSuccessState) {
+                        context.read<AdmobsBloc>().add(OnShowAdmobsEvent());
+
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -79,19 +82,24 @@ class ThankScreen extends StatelessWidget {
                         );
                       }
                     },
-                    child: TextButton(
-                      onPressed: () {
-                        context.read<MoodCreateBloc>().add(
-                              OnCreateMoodEvent(
-                                data:
-                                    (stateMaker as MoodMakerInitialState).data,
-                              ),
-                            );
-                      },
-                      child: const Text(
-                        "Valider",
-                      ),
-                    ),
+                    builder: (context, state) {
+                      return TextButton(
+                        onPressed: state is MoodCreateLoadingState
+                            ? null
+                            : () {
+                                context.read<MoodCreateBloc>().add(
+                                      OnCreateMoodEvent(
+                                        data: (stateMaker
+                                                as MoodMakerInitialState)
+                                            .data,
+                                      ),
+                                    );
+                              },
+                        child: const Text(
+                          "Valider",
+                        ),
+                      );
+                    },
                   );
                 },
               ),

@@ -1,6 +1,7 @@
 import 'package:com_nicodevelop_howareyou/bootstrap.dart';
 import 'package:com_nicodevelop_howareyou/repositories/mood_repository.dart';
 import 'package:com_nicodevelop_howareyou/repositories/user_repository.dart';
+import 'package:com_nicodevelop_howareyou/services/admobs/admobs_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/bootstrap/bootstrap_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_create/mood_create_bloc.dart';
 import 'package:com_nicodevelop_howareyou/services/mood_list/mood_list_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:com_nicodevelop_howareyou/services/settings/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +41,8 @@ Future<void> main() async {
 
   /// Conversion en theme Flutter
   final theme = ThemeDecoder.decodeThemeData(themeJson)!;
+
+  MobileAds.instance.initialize();
 
   runApp(
     App(
@@ -96,6 +100,11 @@ class App extends StatelessWidget {
         ),
         BlocProvider<MoodUpdateBloc>(
           create: (context) => MoodUpdateBloc(
+            moodRepository: moodRepository,
+          ),
+        ),
+        BlocProvider<AdmobsBloc>(
+          create: (context) => AdmobsBloc(
             moodRepository: moodRepository,
           ),
         ),
